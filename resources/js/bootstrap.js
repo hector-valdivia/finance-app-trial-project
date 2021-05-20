@@ -1,4 +1,14 @@
 window._ = require('lodash');
+window.$dayjs = require('dayjs');
+
+let isToday = require('dayjs/plugin/isToday')
+window.$dayjs.extend(isToday)
+
+let isYesterday = require('dayjs/plugin/isYesterday')
+window.$dayjs.extend(isYesterday)
+
+let utc = require('dayjs/plugin/utc')
+window.$dayjs.extend(utc)
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests

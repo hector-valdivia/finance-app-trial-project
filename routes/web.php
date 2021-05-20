@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EntryController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,7 +19,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
+Route::group(['middleware' => ['auth']], function(){
+    Route::get('/dashboard', [DashboardController::class, 'index']);
+
+    #Entry
+    Route::get('/balance', [EntryController::class, 'totalBalance']);
+    Route::post('/entry', [EntryController::class, 'store']);
+    Route::put('/entry/{entry}', [EntryController::class, 'update']);
+    Route::delete('/entry/{entry}', [EntryController::class, 'destroy']);
+});
+
+Route::get('/dashboard_example', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
