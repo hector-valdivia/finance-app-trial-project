@@ -16,8 +16,8 @@ export default {
     },
     computed: {
         number() {
-            let number = Math.abs(this.amount).toFixed(0);
-            return new Intl.NumberFormat('en-US').format(Math.abs(this.amount));
+            let number = Math.trunc(this.amount);
+            return new Intl.NumberFormat('en-US').format(number);
         },
         decimals(){
             let decimals = (this.amount.toFixed(2) + "").split(".")[1];

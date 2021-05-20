@@ -1,6 +1,6 @@
 <template>
     <div class="flex justify-center w-full">
-        <ul v-if="total_pages > 1" class="flex pl-0 list-none rounded my-2">
+        <ul v-if="last_page > 1" class="flex pl-0 list-none rounded my-2">
             <li
                 class="leading-tight bg-white border border-gray-300 border-r-0 ml-0 rounded-l hover:bg-gray-200"
                 :class="{'bg-gray-200': isInFirstPage}">
@@ -72,8 +72,8 @@
                             class="py-2 px-3"
                             :class="{'cursor-not-allowed': isInLastPage}"
                             :disabled="isInLastPage"
-                            @click="gotoPageNumber(total_pages)">
-                        {{ total_pages }}
+                            @click="gotoPageNumber(last_page)">
+                        {{ last_page }}
                     </button>
                 </li>
             </template>
@@ -112,16 +112,16 @@ export default {
 
     data: () => ({
         per_page: 10,
-        total: 0,
-        total_pages: 0,
+        total_items: 0,
+        last_page: 0,
     }),
 
     watch: {
         pagination: {
             handler(pagination) {
                 this.per_page = pagination.per_page || 10
-                this.total = pagination.total || 0
-                this.total_pages = pagination.total_pages || 0
+                this.total_items = pagination.total_items || 0
+                this.last_page = pagination.last_page || 0
             },
             immediate: true,
         },
@@ -133,7 +133,7 @@ export default {
         },
 
         isInLastPage() {
-            return this.currentPage === this.total_pages
+            return this.currentPage === this.last_page
         },
 
         pages() {
@@ -153,22 +153,22 @@ export default {
                 return 1
             }
 
-            if (this.currentPage === this.total_pages) {
-                return this.total_pages - this.maxVisibleButtons + 1
+            if (this.currentPage === this.last_page) {
+                return this.last_page - this.maxVisibleButtons + 1
             }
 
             return this.currentPage - 1
         },
 
         endPage() {
-            return Math.min(this.startPage + this.maxVisibleButtons - 1, this.total_pages)
+            return Math.min(this.startPage + this.maxVisibleButtons - 1, this.last_page)
         },
     },
 
     methods: {
         showDots(position = "left") {
-            const number = position === "left" ? 1 : this.total_pages
-            const nextNumber = position === "left" ? 2 : this.total_pages - 1
+            const number = position === "left" ? 1 : this.last_page
+            const nextNumber = position === "left" ? 2 : this.last_page - 1
 
             return !this.pages.includes(number) || !this.pages.includes(nextNumber)
         },
@@ -178,7 +178,7 @@ export default {
         },
 
         gotoLast() {
-            this.gotoPageNumber(this.total_pages)
+            this.gotoPageNumber(this.last_page)
         },
 
         gotoPrevious() {

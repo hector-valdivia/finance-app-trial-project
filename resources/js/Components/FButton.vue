@@ -182,7 +182,7 @@ export default {
             this.isLoading = value;
             this.isDisabled = value;
         },
-        disable(value){
+        disabled(value){
             this.isDisabled = value;
         }
     }
